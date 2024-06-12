@@ -18,8 +18,7 @@ struct ContentView: View {
     @State var searchText = ""
     
     // The view model
-    @State var viewModel = TodoListViewModel()
-
+    @State var fields: [FieldItem] = exampleItems
     
     var body: some View {
         NavigationStack {
@@ -48,11 +47,17 @@ struct ContentView: View {
             
             Button("ADD") {
                 // Add the new to-do item
-                viewModel.createToDo(withTitle: newItemDescription)
+                $fields.createField(withTitle: newItemDescription)
             }
             .font(.caption)
         }
         .padding(20)
+    }
+    func createField(withTitle title: String){
+        
+        let Field = FieldItem (title: title, done: false)
+       
+        fields.append(fields)
     }
        
 }

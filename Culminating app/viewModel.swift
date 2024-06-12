@@ -1,29 +1,29 @@
 import Foundation
 
 @Observable
-class TodoListViewModel {
+class FieldListViewModel {
     func filterTodos(on searchTerm: String) async throws {
     
     if searchTerm.isEmpty {
 
         // Get all the to-dos
         Task {
-            try await getTodos()
+            try await getFields()
         }
 
     } else {
 
         // Get a filtered list of to-dos
         do {
-            let results: [TodoItem] = try await supabase
-                .from("todos")
+            let results: [FieldItem] = try await supabase
+                .from("fields")
                 .select()
                 .ilike("title", pattern: "%\(searchTerm)%")
                 .order("id", ascending: true)
                 .execute()
                 .value
 
-            self.todos = results
+            self.fields = results
 
         } catch {
             debugPrint(error)
@@ -35,44 +35,44 @@ class TodoListViewModel {
     
     // MARK: Stored properties
     // The list of to-do items
-    var todos: [TodoItem]
+ @ObservationIgnored private var fields: [FieldItem]
     
     // MARK: Initializer(s)
-    init(todos: [TodoItem] = []) {
-        self.todos = todos
+    init(fields: [FieldItem] = []) {
+        self.fields = fields
         
         Task {
-            try await getTodos()
+            try await getFields()
         }
 
     }
     
     // MARK: Functions
-    func getTodos() async throws {
+    func getFields() async throws {
         
         do {
-            let results: [TodoItem] = try await supabase
-                .from("todos")
+            let results: [FieldItem] = try await supabase
+                .from("fields")
                 .select()
                 .order("id", ascending: true)
                 .execute()
                 .value
             
-            self.todos = results
+            self.fields = results
             
         } catch {
             debugPrint(error)
         }
         
     }
-    func createToDo(withTitle title: String) {
+    func createField(withTitle title: String) {
         
         // Create a unit of asynchronous work to add the to-do item
         Task {
             
             // Create the new to-do item instance
             // NOTE: The id will be nil for now
-            let todo = TodoItem(
+            let field = FieldItem(
                 title: title,
                 done: false
             )
@@ -82,9 +82,9 @@ class TodoListViewModel {
                 
                 // Insert the new to-do item, and then immediately select
                 // it back out of the database
-                let newlyInsertedItem: TodoItem = try await supabase
-                    .from("todos")
-                    .insert(todo)   // Insert the todo item created locally in memory
+                let newlyInsertedItem: FieldItem = try await supabase
+                    .from("fields")
+                    .insert(field)   // Insert the todo item created locally in memory
                     .select()       // Select the item just inserted
                     .single()       // Ensure just one row is returned
                     .execute()      // Run the query
@@ -94,7 +94,7 @@ class TodoListViewModel {
                 // database into the array used by the view model
                 // NOTE: We do this to obtain the id that is automatically assigned by Supabase
                 //       when the to-do item was inserted into the database table
-                self.todos.append(newlyInsertedItem)
+                self.fields.append(newlyInsertedItem)
                 
             } catch {
                 debugPrint(error)
@@ -102,7 +102,7 @@ class TodoListViewModel {
         }
     }
     
-    func delete(_ todo: TodoItem) {
+    func delete(_ todo: FieldItem) {
             
             // Create a unit of asynchronous work to add the to-do item
             Task {
@@ -111,13 +111,13 @@ class TodoListViewModel {
                     
                     // Run the delete command
                     try await supabase
-                        .from("todos")
+                        .from("fields")
                         .delete()
                         .eq("id", value: todo.id!)  // Only delete the row whose id
                         .execute()                  // matches that of the to-do being deleted
                     
                     // Update the list of to-do items held in memory to reflect the deletion
-                    try await self.getTodos()
+                    try await self.getFields()
 
                 } catch {
                     debugPrint(error)
@@ -128,7 +128,7 @@ class TodoListViewModel {
                     
         }
     
-    func update(todo updatedTodo: TodoItem) {
+    func update(field updatedField: FieldItem) {
             
             // Create a unit of asynchronous work to add the to-do item
             Task {
@@ -137,9 +137,9 @@ class TodoListViewModel {
                     
                     // Run the update command
                     try await supabase
-                        .from("todos")
-                        .update(updatedTodo)
-                        .eq("id", value: updatedTodo.id!)   // Only update the row whose id
+                        .from("fields")
+                        .update(updatedField)
+                        .eq("id", value: updatedField.id!)   // Only update the row whose id
                         .execute()                          // matches that of the to-do being deleted
                         
                 } catch {

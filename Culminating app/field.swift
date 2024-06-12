@@ -7,17 +7,17 @@
 
 import Foundation
 
-struct TodoItem: Identifiable, Codable {
+struct FieldItem: Identifiable, Codable {
     var id: Int?
     var title: String
     var done:  Bool
 }
 
-let firstItem = TodoItem(title: "Study for Chemisty quiz", done: false)
+let firstItem = FieldItem(title: "Study for Chemisty quiz", done: false)
 
-let secondItem = TodoItem(title: "Finish Computer Science assignment", done: true)
+let secondItem = FieldItem(title: "Finish Computer Science assignment", done: true)
 
-let thirdItem = TodoItem(title: "Go for a run around campus", done: false)
+let thirdItem = FieldItem(title: "Go for a run around campus", done: false)
 
 let exampleItems = [
     
