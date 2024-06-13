@@ -9,7 +9,10 @@ import SwiftUI
 
 
 
-struct fieldsDetail: View {
+struct FieldDetailView: View {
+    
+    let field: Field
+    
     @State private var acrage = ""
     
     @State private var crop = ""
@@ -46,5 +49,5 @@ struct fieldsDetail: View {
 }
 
 #Preview {
-    fieldsDetail()
+    FieldDetailView(field: firstField)
 }

@@ -11,7 +11,7 @@ import SwiftUI
 struct Culminating_appApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            FieldsListView()
         }
     }
 }
