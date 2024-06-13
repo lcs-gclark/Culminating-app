@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+
+
 struct fieldsDetail: View {
     @State private var acrage = ""
     

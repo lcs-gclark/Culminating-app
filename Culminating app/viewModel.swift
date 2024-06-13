@@ -2,6 +2,7 @@ import Foundation
 
 @Observable
 class FieldListViewModel {
+    
     func filterTodos(on searchTerm: String) async throws {
     
     if searchTerm.isEmpty {
@@ -102,7 +103,7 @@ class FieldListViewModel {
         }
     }
     
-    func delete(_ todo: FieldItem) {
+    func delete(_ field: FieldItem) {
             
             // Create a unit of asynchronous work to add the to-do item
             Task {
@@ -113,7 +114,7 @@ class FieldListViewModel {
                     try await supabase
                         .from("fields")
                         .delete()
-                        .eq("id", value: todo.id!)  // Only delete the row whose id
+                        .eq("id", value: field.id!)  // Only delete the row whose id
                         .execute()                  // matches that of the to-do being deleted
                     
                     // Update the list of to-do items held in memory to reflect the deletion
@@ -127,7 +128,12 @@ class FieldListViewModel {
             }
                     
         }
-    
+    func createField(title: String){
+        
+        let Field = FieldItem (title: title, done: false)
+        
+        self.fields.append(Field)
+    }
     func update(field updatedField: FieldItem) {
             
             // Create a unit of asynchronous work to add the to-do item
@@ -145,6 +151,7 @@ class FieldListViewModel {
                 } catch {
                     debugPrint(error)
                 }
+               
                 
             }
             
