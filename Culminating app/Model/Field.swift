@@ -19,6 +19,10 @@ let secondField = Field(title: "Corn", done: true)
 
 let thirdField = Field(title: "Soy", done: false)
 
+let fourthField = Field(title: "Hay", done: false)
+
+let fifthField = Field(title: "Barley", done: false)
+
 let exampleFields = [
     
     firstField
@@ -27,6 +31,9 @@ let exampleFields = [
     ,
     thirdField
     ,
+    fourthField
+    ,
+    fifthField
     
 ]
 

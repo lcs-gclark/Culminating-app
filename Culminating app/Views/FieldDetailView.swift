@@ -17,6 +17,8 @@ struct FieldDetailView: View {
     
     @State private var crop = ""
     
+    @State private var pastyield = ""
+    
     var body: some View {
         
         Text("Field")
@@ -42,6 +44,18 @@ struct FieldDetailView: View {
             }
             .padding(.horizontal)
             Text("Crop")
+                .padding(.horizontal)
+        }
+        HStack {
+            Group {
+            
+            TextField("Yield", text: $pastyield)
+            .textFieldStyle(.roundedBorder)
+            
+                
+            }
+            .padding(.horizontal)
+            Text("past yield")
                 .padding(.horizontal)
         }
             
